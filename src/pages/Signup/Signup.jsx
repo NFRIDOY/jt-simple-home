@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
-
-const Login = () => {
+const Signup = () => {
 
     const { test } = useAuth();
 
@@ -11,7 +10,7 @@ const Login = () => {
             <div
                 className="w-96 relative grid mb-4 -mt-6 overflow-hidden text-white shadow-lg h-28 place-items-center rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 bg-clip-border shadow-gray-900/20">
                 <h3 className="block font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-white">
-                    Sign In
+                    Sign Up
                 </h3>
             </div>
             <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border border-2 border-gray-400">
@@ -58,23 +57,16 @@ const Login = () => {
                     </div> */}
                 </div>
                 <div className="p-6 pt-0">
-                    <div className="space-y-3">
-                        <button
-                            className="block w-full select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            type="button">
-                            Sign In
-                        </button>
-                        <button
-                            className="block w-full select-none rounded-lg bg-gradient-to-tr from-zinc-900  to-zinc-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            type="button">
-                            Google
-                        </button>
-                    </div>
+                    <button to={"/signup"}
+                        className="block w-full select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        type="button">
+                        Sign up
+                    </button>
                     <p className="flex justify-center mt-6 font-sans text-sm antialiased font-light leading-normal text-inherit">
-                        Don&apos;t have an account?
-                        <Link to={"/signup"}
+                        Already have an account?
+                        <Link to={"/signin"}
                             className="block ml-1 font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
-                            Sign up
+                            Sign in
                         </Link>
                     </p>
                 </div>
@@ -83,4 +75,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
