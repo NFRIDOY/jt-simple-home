@@ -10,6 +10,7 @@ import {
 import Login from './pages/Login/Login.jsx';
 import AuthProvider from './providers/AuthProvider/AuthProvider.jsx';
 import Signup from './pages/Signup/Signup.jsx';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* <App /> */}
+    <Toaster
+      position="bottom-left"
+      reverseOrder={false}
+    />
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>

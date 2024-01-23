@@ -1,10 +1,68 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "firebase/auth";
+import toast from "react-hot-toast";
+import app from "../../utils/firebase.config";
 
 export const AuthContext = createContext(null);
 
+
 const AuthProvider = ({ children }) => {
 
-    const info = {test: 100}
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+
+
+    const createUserEmailPass = (email, password) => {
+        setLoading(true)
+        return createUserWithEmailAndPassword(auth, email, password)
+    }
+    const signInEmailPass = (email, password) => {
+        setLoading(true)
+        return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    const googleSignIn = () => {
+        setLoading(true)
+        return signInWithPopup(auth, googleProvider)
+    }
+
+    const logOut = () => {
+        toast.error("User Signed Out!!!")
+        setLoading(true)
+        return signOut(auth)
+    }
+
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+            console.log("unSubscribe")
+            console.log(currentUser)
+            setUser(currentUser)
+            setLoading(false)
+            if (currentUser) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const loggedInUser = { email: currentUser.email };
+
+                console.log(loggedInUser)
+            }
+            // else {
+            //     // User is signed out
+                
+
+            // }
+        })
+
+        return () => {
+            unSubscribe()
+        }
+    }, [user])
+
+
+    const info = { test: 100 }
     return (
         <AuthContext.Provider value={info}>
             {children}
