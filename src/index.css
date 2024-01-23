@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .trans {
+        @apply transition ease-in-out delay-0 duration-1000 hover:translate-x-1;
+    }
+}
