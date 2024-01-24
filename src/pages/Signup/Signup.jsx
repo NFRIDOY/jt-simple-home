@@ -3,12 +3,15 @@ import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import app from '../../utils/firebase.config';
+import useAxios from '../../hooks/useAxios';
 
 const Signup = () => {
 
     const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut, updateUser } = useAuth();
 
     const auth = getAuth(app);
+
+    const axios = useAxios();
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -18,16 +21,11 @@ const Signup = () => {
         const confirmPassword = form.confirmPassword.value;
         const name = form.name.value;
 
-        // if (password !== confirmPassword) {
-        //     return toast.error("Password Do not match");
-        // }
-
-        const userObj = {
-            email,
-            password,
-            name
+        if (password !== confirmPassword) {
+            return toast.error("Password Do not match");
         }
-        console.log(userObj);
+
+        
 
 
         // createUserEmailPass(email, password)
@@ -42,6 +40,19 @@ const Signup = () => {
                 toast.success("User Created")
                 // console.log(user)
                 updateUser(name)
+
+                const userObj = {
+                    email,
+                    password,
+                    name,
+                    user
+                }
+                console.log(userObj);
+
+                axios.post("/users", userObj)
+                    .then((res) => {
+                        console.log(res.data);
+                    })
 
             })
             .catch((error) => {
