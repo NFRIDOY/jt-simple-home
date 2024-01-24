@@ -36,6 +36,26 @@ const AuthProvider = ({ children }) => {
         return signOut(auth)
     }
 
+    const updateUser = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name,
+        })
+            .then(() => {
+                setUser(user)
+                toast.success("Profile updated!")
+            }).catch((error) => {
+                toast.success("Profile updated! Failed")
+                console.log(error)
+            });
+        if (user !== null) {
+            const displayName = user.displayName;
+            const email = user.email;
+
+            setUser(user)
+            const uid = user.uid;
+        }
+    }
+
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log("unSubscribe")
@@ -51,7 +71,7 @@ const AuthProvider = ({ children }) => {
             }
             // else {
             //     // User is signed out
-                
+
 
             // }
         })
@@ -62,7 +82,7 @@ const AuthProvider = ({ children }) => {
     }, [user])
 
 
-    const info = { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut};
+    const info = { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut, updateUser };
     return (
         <AuthContext.Provider value={info}>
             {children}

@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 const Signup = () => {
 
-    const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut } = useAuth();
+    const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut, updateUser } = useAuth();
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -25,7 +25,28 @@ const Signup = () => {
         }
         console.log(userObj);
 
-        
+        createUserEmailPass(email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                // console.log("User Creds", user)
+                console.log(user)
+                setUser(user)
+
+                toast.success("User Created")
+                // console.log(user)
+                updateUser(name)
+
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(" Error on CreateUser ", errorCode)
+                console.log(" Error on CreateUser ", errorMessage)
+                toast.error("User Creation Error")
+            });
+
+
     }
 
     return (
