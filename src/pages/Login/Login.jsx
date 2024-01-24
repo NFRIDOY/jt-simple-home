@@ -4,7 +4,20 @@ import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
 
-    const { test } = useAuth();
+    const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut } = useAuth();
+
+    const handleSignin = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        const userObj = {
+            email,
+            password
+        }
+        console.log(userObj);
+    }
 
     return (
         <div className="mx-auto w-fit h-screen lg:p-16">
@@ -14,11 +27,14 @@ const Login = () => {
                     Sign In
                 </h3>
             </div>
-            <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border border-2 border-gray-400">
+            <form onSubmit={handleSignin}
+                className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border border-2 border-gray-400">
 
                 <div className="flex flex-col gap-4 p-6">
                     <div className="relative h-11 w-full min-w-[200px]">
                         <input
+                            id='email'
+                            name='email'
                             className="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder=" " />
                         <label
@@ -28,6 +44,9 @@ const Login = () => {
                     </div>
                     <div className="relative h-11 w-full min-w-[200px]">
                         <input
+                            id='password'
+                            name='password'
+                            type="password"
                             className="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder=" " />
                         <label
@@ -61,7 +80,7 @@ const Login = () => {
                     <div className="space-y-3">
                         <button
                             className="block w-full select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            type="button">
+                            type="submit">
                             Sign In
                         </button>
                         <button
@@ -78,7 +97,7 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
