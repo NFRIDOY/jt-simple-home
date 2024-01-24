@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
@@ -13,6 +13,8 @@ const Signup = () => {
 
     const axios = useAxios();
 
+    const navigate = useNavigate()
+
     const handleSignup = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -25,7 +27,7 @@ const Signup = () => {
             return toast.error("Password Do not match");
         }
 
-        
+
 
 
         // createUserEmailPass(email, password)
@@ -34,7 +36,7 @@ const Signup = () => {
                 // Signed up 
                 const user = userCredential.user;
                 // console.log("User Creds", user)
-                console.log(user)
+                // console.log(user)
                 setUser(user)
 
                 toast.success("User Created")
@@ -43,22 +45,23 @@ const Signup = () => {
 
                 const userObj = {
                     email,
-                    password,
+                    // password,
                     name,
                     user
                 }
-                console.log(userObj);
 
-                axios.post("/users", userObj)
+                axios.put("/users", userObj)
                     .then((res) => {
+                        // console.log(userObj);
                         console.log(res.data);
+                        navigate('/')
                     })
 
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(" Error on CreateUser ", errorCode)
+                // console.log(" Error on CreateUser ", errorCode)
                 console.log(" Error on CreateUser ", errorMessage)
                 toast.error("User Creation Error")
             });

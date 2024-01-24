@@ -1,11 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxios from "../../hooks/useAxios";
 
 
 const Login = () => {
 
     const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut } = useAuth();
+
+    const axios = useAxios();
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -27,7 +30,7 @@ const Login = () => {
             .then((userCredentials) => {
                 console.log(userCredentials)
                 toast.success("User signed in successfully");
-                navigate(location?.state ? location?.state : '/')
+                navigate('/')
             })
             .catch((error) => {
                 console.log(error);
@@ -51,7 +54,22 @@ const Login = () => {
                 toast.success("User Login Using Google")
                 // console.log(location.pathname)
                 console.log(location?.state)
-                navigate(location?.state ? location?.state : '/')
+
+                const userObj = {
+                    email: user.email,
+                    // password,
+                    name: user?.displayName,
+                    user
+                }
+
+                console.log(userObj);
+
+                axios.put("/users", userObj)
+                    .then((res) => {
+                        // console.log(userObj);
+                        console.log(res.data);
+                        navigate('/')  
+                    })
             }).catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
