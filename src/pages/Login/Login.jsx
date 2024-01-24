@@ -1,10 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
 
     const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut } = useAuth();
+
+    const navigate = useNavigate()
+    const location = useLocation()
+
 
     const handleSignin = (e) => {
         e.preventDefault();
@@ -17,6 +22,48 @@ const Login = () => {
             password
         }
         console.log(userObj);
+
+        signInEmailPass(email, password)
+            .then((userCredentials) => {
+                console.log(userCredentials)
+                toast.success("User signed in successfully");
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("SignIn Failed");
+            })
+    }
+
+    const hangleGoogleSignIn = () => {
+        googleSignIn()
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                // const credential = GoogleAuthProvider.credentialFromResult(result);
+                // const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+                // ...
+                setUser(user)
+                console.log(user)
+                // getToken()
+                toast.success("User Login Using Google")
+                // console.log(location.pathname)
+                console.log(location?.state)
+                navigate(location?.state ? location?.state : '/')
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                // const email = error.customData.email;
+                // The AuthCredential type that was used.
+                // const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+                toast.error("User Login Failed")
+                console.log(" Error on CreateUser ", errorCode)
+                console.log(" Error on CreateUser ", errorMessage)
+            });
     }
 
     return (
@@ -84,6 +131,7 @@ const Login = () => {
                             Sign In
                         </button>
                         <button
+                            onClick={hangleGoogleSignIn}
                             className="block w-full select-none rounded-lg bg-gradient-to-tr from-zinc-900  to-zinc-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                             Google

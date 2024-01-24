@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
-import app from "../../utils/firebase.config";
-
-export const AuthContext = createContext(null);
+import app from './../../utils/firebase.config';
 
 
-const AuthProvider = ({ children }) => {
+export const AuthContext = createContext(null)
+
+
+export default function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -90,4 +91,4 @@ const AuthProvider = ({ children }) => {
     );
 };
 
-export default AuthProvider;
+// export default AuthProvider;

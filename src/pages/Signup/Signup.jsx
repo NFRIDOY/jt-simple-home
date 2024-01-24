@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import app from '../../utils/firebase.config';
 
 const Signup = () => {
 
     const { user, setUser, loading, setLoading, createUserEmailPass, signInEmailPass, googleSignIn, logOut, updateUser } = useAuth();
+
+    const auth = getAuth(app);
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -14,9 +18,9 @@ const Signup = () => {
         const confirmPassword = form.confirmPassword.value;
         const name = form.name.value;
 
-        if (password !== confirmPassword) {
-            return toast.error("Password Do not match");
-        }
+        // if (password !== confirmPassword) {
+        //     return toast.error("Password Do not match");
+        // }
 
         const userObj = {
             email,
@@ -25,7 +29,9 @@ const Signup = () => {
         }
         console.log(userObj);
 
-        createUserEmailPass(email, password)
+
+        // createUserEmailPass(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
