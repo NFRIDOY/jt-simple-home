@@ -27,6 +27,7 @@ const Login = () => {
             .then((userCredentials) => {
                 console.log(userCredentials)
                 toast.success("User signed in successfully");
+                navigate(location?.state ? location?.state : '/')
             })
             .catch((error) => {
                 console.log(error);
